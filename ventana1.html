@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNK</title>
+<link rel="icon" href="images/icono_pinterest.png" type="image/png">
+<link rel="stylesheet" href="styles/style_pinterest.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="top">
+    <div class="sb-item pinterest">
+      <img src="images/icono_pinterest.png" alt="Pinterest">
+    </div>
+    <div class="sb-item" onclick="window.location.href='index.html'">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V21H3z"/></svg>
+      <div class="sb-tip">Inicio</div>
+    </div>
+    <div class="sb-item"><svg viewBox="0 0 24 24"><path d="M3 4h18v4H3zM3 10h18v4H3zM3 16h18v4H3z"/></svg><div class="sb-tip">Categorías</div></div>
+    <div class="sb-item"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z"/></svg><div class="sb-tip">Tus tableros</div></div>
+    <div class="sb-item"><svg viewBox="0 0 24 24"><path d="M12 5v14m7-7H5" stroke="#555" stroke-width="2"/></svg><div class="sb-tip">Crear</div></div>
+    <div class="sb-item" style="position:relative;">
+      <svg viewBox="0 0 24 24"><path d="M12 22a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2zm6-6V9a6 6 0 1 0-12 0v7l-2 4h16l-2-4z"/></svg>
+      <span class="notification-dot"></span>
+      <div class="sb-tip">Actualizaciones</div>
+    </div>
+    <div class="sb-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5h18z"/></svg><div class="sb-tip">Mensajes</div></div>
+  </div>
+  <div class="bottom">
+    <div class="sb-item">
+      <svg viewBox="0 0 24 24"><path d="M19.4 13.5a7.92 7.92 0 0 0 0-3l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-2.6-1.5l-.4-2.7h-4l-.4 2.7a7.6 7.6 0 0 0-2.6 1.5l-2.5-1-2 3.5 2.1 1.6a7.92 7.92 0 0 0 0 3l-2.1 1.6 2 3.5 2.5-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.7h4l.4-2.7a7.6 7.6 0 0 0 2.6-1.5l2.5 1 2-3.5-2.1-1.6zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
+      <div class="sb-tip">Configuración y soporte</div>
+    </div>
+  </div>
+</aside>
+
+<header>
+  <div class="search-box">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="#888" stroke-width="2" fill="none"></circle><line x1="20" y1="20" x2="15.5" y2="15.5" stroke="#888" stroke-width="2" stroke-linecap="round"></line></svg>
+    <input type="search" placeholder="Buscar"/>
+  </div>
+  <div class="profile-icon" onclick="window.location.href='ventana3.html'">
+    <img src="images/yo.jpg" alt="Perfil">
+  </div>
+</header>
+
+<div class="quick-filters">
+  <button onclick="window.location.href='index.html'">Todas</button>
+  <button class="active" onclick="window.location.href='ventana1.html'">SNK</button>
+  <button onclick="window.location.href='ventana2.html'">Gaming</button>
+  <button>Rick and Morty</button>
+  <button>JJK</button>
+</div>
+
+<main id="pin-container"></main>
+
+<script>
+const pinContainer = document.getElementById('pin-container');
+let imagenes = [];
+for(let i=1;i<=20;i++) imagenes.push(`snk${i}.jpeg`);
+
+function shuffle(array){
+  for(let i=array.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [array[i],array[j]] = [array[j],array[i]];
+  }
+  return array;
+}
+imagenes = shuffle(imagenes);
+
+imagenes.forEach((img,index)=>{
+  const article = document.createElement('article');
+  article.className = 'pin';
+  article.innerHTML = `
+    <img src="images/${img}" alt="Imagen SNK ${index+1}" onclick="window.location.href='ventana3.html'">
+    <div class="overlay">
+      <div class="overlay-top">
+        <button class="btn profile" onclick="window.location.href='ventana3.html'">Perfil ⏷</button>
+        <button class="btn save" onclick="toggleSave(this)">Guardar</button>
+      </div>
+      <div class="overlay-bottom">
+        <button class="btn download">⬇</button>
+      </div>
+    </div>
+    <div class="pin-footer">
+      <button class="more-btn" onclick="toggleMenu(this)">⋯</button>
+      <div class="pin-actions-right"></div>
+    </div>
+    <div class="menu">
+      <div class="item">Ver más como esto</div>
+      <div class="item">Ver menos como este</div>
+      <div class="item">Descargar imagen</div>
+      <div class="item">Reportar pin</div>
+    </div>
+  `;
+  pinContainer.appendChild(article);
+});
+
+function toggleMenu(el){
+  const menu = el.closest(".pin").querySelector(".menu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function toggleSave(btn){
+  btn.classList.toggle('saved');
+  btn.textContent = btn.classList.contains('saved') ? "Guardado" : "Guardar";
+}
+</script>
+
+</body>
+</html>
